@@ -64,6 +64,7 @@ import BoardLabelLetters from './BoardLabelLetters.vue';
 import BoardLabelNumbers from './BoardLabelNumbers.vue';
 import CheckerOnBoard from './CheckerOnBoard.vue';
 import Checker from '@/types/basic';
+// TODO: add component for game controls(button with list) and game log
 
 const squares = ref<string[]>([])
 const numbers: ReadonlyArray<string> = ['1', '2', '3', '4', '5', '6', '7', '8']

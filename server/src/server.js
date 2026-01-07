@@ -14,29 +14,25 @@ const cManager = ConnectionManager
 app
   .use(cors())
   .use(express.json())
-  .get('/', (req, res) => res.send('Hello from Express!'))
+  .get('/', (req, res) => res.send('NetChekers server ok!'))
+  .get('/status', (req, res) => res.send({ status: true }))
+  .get('/state', (req, res) => {
+    res.send(cManager.stateGame)
+  })
+  .get('/log', (req, res) => res.send(cManager.logAll))
+
 // wss setup
-
 wss.on('connection', (ws, request) => {
-  const clientIP = request.socket.remoteAddress
-  console.log(`New client connected from ${clientIP}`)
-
-  // Send welcome message
-  ws.send('Welcome to the WebSocket server!')
-
-  cManager.addClient(ws)
-  ws.send(`Welcome! There are ${cManager.getClientCount()} clients connected.`)
-
-  // Notify other clients about new connection
-  cManager.broadcast(`A new player joined the game!`, ws)
+  cManager.newConnection(ws, request)
 
   ws.on('message', (data) => {
     try {
       const messageText = data.toString()
-      console.log('Received:', messageText)
+      // console.log('Received:', messageText)
+      cManager.messageRouter(ws, messageText)
 
       // Broadcast message to all other clients
-      cManager.broadcast(`Player says: ${messageText}`, ws)
+      // cManager.broadcast(`Player says: ${messageText}`, ws)
     } catch (error) {
       console.error('Error processing message:', error)
     }
