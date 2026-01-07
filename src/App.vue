@@ -1,11 +1,20 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { onMounted } from 'vue';
+import router from './router';
+import GameState from './components/connect/GameState.vue';
+
+onMounted(() => {
+  // router.push({ name: 'game' })
+  router.push({ name: 'welcome' })
+})
+</script>
 
 <template>
-  <h1>You did it!</h1>
-  <p>
-    Visit <a href="https://vuejs.org/" target="_blank" rel="noopener">vuejs.org</a> to read the
-    documentation
-  </p>
+  <div class="container h-full flex flex-col justify-center items-center mx-auto my-0 p-2.5 bg-lime-800 ">
+    <h1>Net Checkers</h1>
+    <game-state />
+    <router-view />
+  </div>
 </template>
 
 <style scoped></style>
